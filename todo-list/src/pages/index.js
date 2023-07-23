@@ -1,8 +1,11 @@
 import Head from "next/head";
 import styles from "@/styles/Home.module.css";
 import { Button, Card, Container, Grid } from "semantic-ui-react";
+import { useRouter } from "next/router";
 
 export default function Home({ tasks }) {
+  const router = useRouter();
+
   if (!tasks)
     return (
       <Grid verticalAlign="middle" style={{ height: "80vh" }}>
@@ -40,7 +43,12 @@ export default function Home({ tasks }) {
                 <p>{task.description}</p>
               </Card.Content>
               <Card.Content extra>
-                <Button secondary>View</Button>
+                <Button
+                  secondary
+                  onClick={() => router.push(`/tasks/${task._id}`)}
+                >
+                  View
+                </Button>
                 <Button primary>Edit</Button>
                 <Button color="red">Delete</Button>
               </Card.Content>

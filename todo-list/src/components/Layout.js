@@ -4,7 +4,7 @@ export function Layout({ children }) {
   return (
     <>
       <Navbar />
-      {children}
+      <main style={{ padding: "25px" }}>{children}</main>
     </>
   );
 }
