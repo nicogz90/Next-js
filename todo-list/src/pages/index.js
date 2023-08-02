@@ -4,7 +4,9 @@ import { Button, Card, Container, Grid } from "semantic-ui-react";
 import { useRouter } from "next/router";
 
 export async function getServerSideProps(ctx) {
-  const res = await fetch("http://localhost:3000/api/tasks");
+  const res = await fetch(
+    `${process.env.PAGE_URL}/api/tasks` || "http://localhost:3000/api/tasks"
+  );
   const tasks = await res.json();
   return { props: { tasks } };
 }

@@ -13,7 +13,9 @@ export const TaskProvider = ({ children }) => {
 
   const fetchData = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/tasks");
+      const res = await fetch(
+        `${process.env.PAGE_URL}/api/tasks` || "http://localhost:3000/api/tasks"
+      );
       const data = await res.json();
       setTasks(data);
     } catch (error) {
