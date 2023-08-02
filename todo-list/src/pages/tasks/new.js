@@ -84,6 +84,7 @@ export default function TaskForm() {
               name="title"
               value={newTask.title}
               onChange={handleChange}
+              autoFocus
               error={
                 errors.title
                   ? { content: "Please enter title", pointing: "below" }

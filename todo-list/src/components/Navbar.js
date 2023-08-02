@@ -1,24 +1,22 @@
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { Menu, Container, Button } from "semantic-ui-react";
+import { useTasks } from "@/context/TasksContext";
 
 export const Navbar = () => {
   const router = useRouter();
+  const tasks = useTasks();
   return (
     <Menu inverted borderless attached>
       <Container>
         <Menu.Item>
           <Link href={"/"}>
-            <img width={40} src="/favicon.ico" alt="" />
+            <h1>Task List</h1> <span>{Object.keys(tasks).length} tasks</span>
           </Link>
         </Menu.Item>
         <Menu.Menu position="right">
           <Menu.Item>
-            <Button
-              primary
-              size="mini"
-              onClick={() => router.push("/tasks/new")}
-            >
+            <Button color="green" onClick={() => router.push("/tasks/new")}>
               New Task
             </Button>
           </Menu.Item>

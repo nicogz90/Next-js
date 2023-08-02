@@ -3,6 +3,12 @@ import styles from "@/styles/Home.module.css";
 import { Button, Card, Container, Grid } from "semantic-ui-react";
 import { useRouter } from "next/router";
 
+export async function getServerSideProps(ctx) {
+  const res = await fetch("http://localhost:3000/api/tasks");
+  const tasks = await res.json();
+  return { props: { tasks } };
+}
+
 export default function Home({ tasks }) {
   const router = useRouter();
 
@@ -35,7 +41,7 @@ export default function Home({ tasks }) {
       </Head>
 
       <Container>
-        <Card.Group itemsPerRow={4}>
+        <Card.Group stackable itemsPerRow={4}>
           {tasks.map((task) => (
             <Card key={task._id}>
               <Card.Content>
@@ -59,10 +65,4 @@ export default function Home({ tasks }) {
       </Container>
     </>
   );
-}
-
-export async function getServerSideProps(ctx) {
-  const res = await fetch("http://localhost:3000/api/tasks");
-  const tasks = await res.json();
-  return { props: { tasks } };
 }
