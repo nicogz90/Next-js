@@ -8,10 +8,8 @@ export default function TaskForm() {
   const { query, push } = useRouter();
 
   const getTask = async () => {
-    const res = await fetch(
-      `${process.env.PAGE_URL}/api/tasks/${query.id}` ||
-        `http://localhost:3000/api/tasks/${query.id}`
-    );
+    const url = process.env.PAGE_URL || "http://localhost:3000";
+    const res = await fetch(`${url}/api/tasks/${query.id}`);
     const { title, description } = await res.json();
     setNewTask({ title, description });
   };
@@ -44,15 +42,12 @@ export default function TaskForm() {
 
   const createTask = async () => {
     try {
-      await fetch(
-        `${process.env.PAGE_URL}/api/tasks` ||
-          "http://localhost:3000/api/tasks",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(newTask),
-        }
-      );
+      const url = process.env.PAGE_URL || "http://localhost:3000";
+      await fetch(`${url}/api/tasks`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newTask),
+      });
     } catch (error) {
       console.log(error);
     }
@@ -60,15 +55,12 @@ export default function TaskForm() {
 
   const updateTask = async () => {
     try {
-      await fetch(
-        `${process.env.PAGE_URL}/api/tasks/${query.id}` ||
-          `http://localhost:3000/api/tasks/${query.id}`,
-        {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(newTask),
-        }
-      );
+      const url = process.env.PAGE_URL || "http://localhost:3000";
+      await fetch(`${url}/api/tasks/${query.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newTask),
+      });
     } catch (error) {
       console.log(error);
     }

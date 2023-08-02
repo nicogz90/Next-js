@@ -23,13 +23,10 @@ export default function TaskDetail({ task, error }) {
     setIsLoading(true);
     const { id } = query;
     try {
-      await fetch(
-        `${process.env.PAGE_URL}/api/tasks/${id}` ||
-          `http://localhost:3000/api/tasks/${id}`,
-        {
-          method: "DELETE",
-        }
-      );
+      const url = process.env.PAGE_URL || "http://localhost:3000";
+      await fetch(`${url}/api/tasks/${id}`, {
+        method: "DELETE",
+      });
     } catch (error) {
       console.log(error);
     }
@@ -65,10 +62,8 @@ export default function TaskDetail({ task, error }) {
 }
 
 export async function getServerSideProps({ query: { id } }) {
-  const res = await fetch(
-    `${process.env.PAGE_URL}/api/tasks/${id}` ||
-      `http://localhost:3000/api/tasks/${id}`
-  );
+  const url = process.env.PAGE_URL || "http://localhost:3000";
+  const res = await fetch(`${url}/api/tasks/${id}`);
   if (res.status === 200) {
     const task = await res.json();
     return { props: { task } };
