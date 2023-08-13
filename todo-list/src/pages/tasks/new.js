@@ -1,15 +1,16 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Form, Grid, Button } from "semantic-ui-react";
+import { useTasks } from "@/context/TasksContext";
 
 export default function TaskForm() {
   const [newTask, setNewTask] = useState({ title: "", description: "" });
   const [errors, setErrors] = useState({ title: "", description: "" });
   const { query, push } = useRouter();
+  const { setTaskCount } = useTasks();
 
   const getTask = async () => {
-    const url = process.env.PAGE_URL || "http://localhost:3000";
-    const res = await fetch(`${url}/api/tasks/${query.id}`);
+    const res = await fetch(`/api/tasks/${query.id}`);
     const { title, description } = await res.json();
     setNewTask({ title, description });
   };
@@ -42,12 +43,12 @@ export default function TaskForm() {
 
   const createTask = async () => {
     try {
-      const url = process.env.PAGE_URL || "http://localhost:3000";
-      await fetch(`${url}/api/tasks`, {
+      await fetch(`/api/tasks`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newTask),
       });
+      setTaskCount((prev) => prev + 1);
     } catch (error) {
       console.log(error);
     }
@@ -55,8 +56,7 @@ export default function TaskForm() {
 
   const updateTask = async () => {
     try {
-      const url = process.env.PAGE_URL || "http://localhost:3000";
-      await fetch(`${url}/api/tasks/${query.id}`, {
+      await fetch(`/api/tasks/${query.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newTask),

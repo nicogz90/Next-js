@@ -5,13 +5,14 @@ import { useTasks } from "@/context/TasksContext";
 
 export const Navbar = () => {
   const router = useRouter();
-  const tasks = useTasks();
+  const { taskCount } = useTasks();
+
   return (
     <Menu inverted borderless attached>
       <Container>
         <Menu.Item>
           <Link href={"/"}>
-            <h1>Task List</h1> <span>{Object.keys(tasks).length} tasks</span>
+            <h1>Task List</h1> <span>{taskCount} tasks</span>
           </Link>
         </Menu.Item>
         <Menu.Menu position="right">

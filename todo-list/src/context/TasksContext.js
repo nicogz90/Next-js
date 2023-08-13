@@ -3,20 +3,19 @@ import { createContext, useContext, useEffect, useState } from "react";
 export const TaskContext = createContext();
 
 export const useTasks = () => {
-  const values = useContext(TaskContext);
-  if (!values) throw new Error("useTasks must be used within a Provider");
-  return values;
+  const context = useContext(TaskContext);
+  if (!context) throw new Error("useTasks must be used within a Provider");
+  return context;
 };
 
 export const TaskProvider = ({ children }) => {
-  const [tasks, setTasks] = useState([]);
+  const [taskCount, setTaskCount] = useState(0);
 
   const fetchData = async () => {
     try {
-      const url = process.env.PAGE_URL || "http://localhost:3000";
-      const res = await fetch(`${url}/api/tasks`);
+      const res = await fetch(`/api/tasks`);
       const data = await res.json();
-      setTasks(data);
+      setTaskCount(data.length);
     } catch (error) {
       console.error("Error fetching data from API:", error);
     }
@@ -24,7 +23,11 @@ export const TaskProvider = ({ children }) => {
 
   useEffect(() => {
     fetchData();
-  }, [tasks]);
+  }, []);
 
-  return <TaskContext.Provider value={tasks}>{children}</TaskContext.Provider>;
+  return (
+    <TaskContext.Provider value={{ taskCount, setTaskCount }}>
+      {children}
+    </TaskContext.Provider>
+  );
 };

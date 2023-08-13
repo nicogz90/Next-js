@@ -3,12 +3,17 @@ import Task from "@/models/Task";
 
 dbConnect();
 
+export async function getTasks() {
+  const tasks = await Task.find();
+  return tasks;
+}
+
 export default async function handler(req, res) {
   const { method, body } = req;
   switch (method) {
     case "GET":
       try {
-        const tasks = await Task.find();
+        const tasks = await getTasks();
         return res.status(200).json(tasks);
       } catch (error) {
         return res.status(500).json({ error: error.message });
