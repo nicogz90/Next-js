@@ -1,7 +1,7 @@
 import Error from "next/error";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { Grid, Button, Confirm, Loader } from "semantic-ui-react";
+import { Grid, Button, Confirm, Loader, Divider } from "semantic-ui-react";
 import { getTask } from "@/pages/api/tasks/[id]";
 import { dbConnect } from "@/utils/db";
 import { useTasks } from "@/context/TasksContext";
@@ -62,7 +62,8 @@ export default function TaskDetail({ task, error }) {
       <Grid.Row>
         <Grid.Column textAlign="center">
           <h1>{task.title}</h1>
-          <p>{task.description}</p>
+          <h3 style={{ margin: "3rem 0" }}>{task.description}</h3>
+          <p>Last modified: {new Date(task.updatedAt).toLocaleDateString()}</p>
           <Button color="red" onClick={open} loading={isLoading}>
             Delete
           </Button>

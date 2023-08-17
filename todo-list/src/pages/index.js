@@ -1,4 +1,4 @@
-import { Button, Card, Container, Grid } from "semantic-ui-react";
+import { Button, Card, Container, Divider, Grid } from "semantic-ui-react";
 import { useRouter } from "next/router";
 import { getTasks } from "@/pages/api/tasks";
 import { dbConnect } from "@/utils/db";
@@ -7,6 +7,7 @@ export async function getServerSideProps(ctx) {
   dbConnect();
   const res = await getTasks();
   const tasks = JSON.parse(JSON.stringify(res));
+  console.log(tasks);
   return { props: { tasks } };
 }
 
@@ -34,14 +35,18 @@ export default function Home({ tasks }) {
 
   return (
     <Container>
-      <Card.Group stackable itemsPerRow={4}>
-        {tasks.map((task) => (
-          <Card key={task._id}>
+      <Card.Group stackable itemsPerRow={3}>
+        {tasks.map((task, i) => (
+          <Card key={task._id} style={{ "background-color": "cornsilk" }}>
             <Card.Content>
-              <Card.Header>{task.title}</Card.Header>
-              <p>{task.description}</p>
+              <Card.Header>
+                {i + 1}. {task.title}
+              </Card.Header>
+              <p>Date: {new Date(task.updatedAt).toLocaleDateString()}</p>
+              <Divider inverted />
+              <h4 style={{ marginTop: 0 }}>{task.description}</h4>
             </Card.Content>
-            <Card.Content extra>
+            <Card.Content extra textAlign="center">
               <Button onClick={() => router.push(`/tasks/${task._id}`)}>
                 View
               </Button>
