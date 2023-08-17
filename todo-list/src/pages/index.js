@@ -7,7 +7,6 @@ export async function getServerSideProps(ctx) {
   dbConnect();
   const res = await getTasks();
   const tasks = JSON.parse(JSON.stringify(res));
-  console.log(tasks);
   return { props: { tasks } };
 }
 
